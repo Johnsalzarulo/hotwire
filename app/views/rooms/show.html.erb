@@ -11,8 +11,18 @@
   </p>
 <% end %>
 
-<div id="messages">
-  <%= render @room.messages %>
-</div>
+<% if session[:name].present? %>
+  <div id="messages">
+    <%= render @room.messages %>
+  </div>
+  <%= turbo_frame_tag "new_message", src: new_room_message_path(@room), target: "_top" %>
+<% else %>
 
-<%= turbo_frame_tag "new_message", src: new_room_message_path(@room), target: "_top" %>
+  <p>What's your name?</p>
+  <p>To enter the chat room you must provide a name:</p>
+  <form action="<%= room_path(@room) %>">
+    <input type="text" name="name"></input>
+    <input type="submit"></input>
+  </form>
+
+<% end %>

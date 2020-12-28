@@ -1,5 +1,6 @@
 <div id="<%= dom_id message %>">
   <%= form_with(model: [message.room, message]) do |form| %>
+  <%= form.hidden_field :name, :value => session[:name] %>
     <div class="field">
       <%= form.text_field :content %>
     </div>

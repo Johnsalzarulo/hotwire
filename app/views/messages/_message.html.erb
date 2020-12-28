@@ -1,6 +1,24 @@
 <%= turbo_frame_tag "message" do %>
   <div id="<%= dom_id message %>">
-    <%= message.created_at.to_s(:short) %>: <%= message.content %>
-    <%= link_to 'Edit', edit_room_message_path(message.room, message) %>
+
+    <% if message.name == session[:name] %>
+      <div class="message sender_message">
+        <strong><%= message.name %>:</strong> <%= message.content %><br>
+        <small><%= time_ago_in_words(message.created_at) %> ago | <%= link_to 'Edit', edit_room_message_path(message.room, message) %></small><br>
+        <% if message.edited? %>
+          <small>edited <%= time_ago_in_words(message.updated_at) %> ago</small>
+        <% end %>
+      </div>
+
+    <% else %>
+      <div class="message">
+        <strong><%= message.name %>:</strong> <%= message.content %><br>
+        <small><%= time_ago_in_words(message.created_at) %> ago </small><br>
+        <% if message.edited? %>
+          <small>edited <%= time_ago_in_words(message.updated_at) %> ago</small>
+        <% end %>
+      </div>
+    <% end %>
+
   </div>
 <% end %>

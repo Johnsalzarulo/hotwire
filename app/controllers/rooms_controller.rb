@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: %i[ show edit update destroy ]
+  before_action :set_name, only: %i[ show ]
 
   def index
     @rooms = Room.all
@@ -37,5 +38,9 @@ class RoomsController < ApplicationController
 
     def room_params
       params.require(:room).permit(:name)
+    end
+
+    def set_name
+      session[:name] = params[:name]
     end
 end
